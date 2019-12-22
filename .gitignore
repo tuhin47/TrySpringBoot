@@ -1,3 +1,4 @@
 /.factorypath
 *.class
 /derby.log
+/target/
