@@ -22,9 +22,19 @@ public class TopicController {
 	public List<Topic> getAllTopics() {
 		return topicService.getTopics();
 	}
+	@RequestMapping("/topics/{id}")
+	public Topic addTopic(@PathVariable long id) {
+		return topicService.getTopic(id);
+	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/topics")
 	public void addTopic(@RequestBody Topic t) {
 		topicService.addTopic(t);
 	}
+	
+	@RequestMapping(method = RequestMethod.PUT,value="/topics")
+	public void updateTopic(@RequestBody Topic t) {
+		topicService.update(t);
+	}
+	
 }

@@ -1,6 +1,8 @@
 package com.tuhin.springboot.topic;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -15,8 +17,9 @@ import lombok.Setter;
 
 @Entity
 public class Topic {
-	@Id
-	private String id;
+	
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	private String name;
 	private String description;
 
