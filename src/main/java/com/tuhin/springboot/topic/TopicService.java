@@ -12,6 +12,10 @@ public class TopicService {
 	private TopicRepository topicRepository;
 	
 	public List<Topic> getTopics() {
+//		topicRepository.findTopicsOrderByName().forEach(item-> System.out.println(item.toString()));
+//		System.out.println(topicRepository.findOneTopicByIdAndName(1,"a"));
+		System.out.println(topicRepository.findFirstTopicByName("a"));
+
 		return (List<Topic>) topicRepository.findAll();
 	}
 	
@@ -27,4 +31,7 @@ public class TopicService {
 		topicRepository.save(t);
 	}
 
+	public List<Topic> getTopicGreaterThan(long id) {
+		return topicRepository.findByIdGreaterThan(id);
+	}
 }

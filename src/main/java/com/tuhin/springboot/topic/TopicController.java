@@ -15,8 +15,10 @@ public class TopicController {
 	public List<Topic> getAllTopics() {
 		return topicService.getTopics();
 	}
+
 	@RequestMapping("/topics/{id}")
 	public Topic getTopic(@PathVariable long id) {
+		topicService.getTopicGreaterThan(id).forEach(item-> System.out.println(item.toString()));
 		return topicService.getTopic(id);
 	}
 
