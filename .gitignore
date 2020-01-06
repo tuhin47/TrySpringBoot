@@ -2,3 +2,4 @@
 *.class
 /derby.log
 /target/
+/.idea/
