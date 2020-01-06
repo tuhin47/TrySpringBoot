@@ -16,7 +16,7 @@ public class TopicService {
 	}
 	
 	public Topic getTopic(long id) {
-		return topicRepository.findOne(id);
+		return topicRepository.findById(id).get();
 	}
 
 	public void addTopic(Topic t) {

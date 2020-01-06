@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 
 @Entity
+@EnableAutoConfiguration
 public class Course {
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
