@@ -5,12 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -19,6 +16,7 @@ import lombok.Setter;
 
 @Entity
 @EnableAutoConfiguration
+@ToString
 public class Topic {
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
