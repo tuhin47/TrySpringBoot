@@ -1,8 +1,6 @@
 package com.tuhin.springboot.index;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Test {
@@ -27,12 +25,18 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        List<Integer> list = new ArrayList<>();
+        /*List<Integer> list = new ArrayList<>();
         for (int i = 100001 - 100; i < 100001; i++) {
             list.add(i);
         }
         Test test = new Test();
         test.setVlan(list);
-        System.out.println(test.getVlan());
+        System.out.println(test.getVlan());*/
+        Set<Long> set = new HashSet<>();
+        set.add(1L);
+        set.add(2L);
+        set.add(3L);
+        set.add(4L);
+        System.out.println("set" + set);
     }
 }
