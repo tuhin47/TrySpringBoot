@@ -3,6 +3,10 @@ package com.tuhin.springboot.programming;
 // paths from a source to
 // destination.
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +73,7 @@ public class AllPathFinding {
         // Mark the current node
         isVisited[u] = true;
 
-        if (u.equals(d)) {
+        if (adjList[u].size() == 0) {
             System.out.println(localPathList);
             // if match found then no need to traverse more till depth
             isVisited[u] = false;
@@ -88,6 +92,9 @@ public class AllPathFinding {
                 // remove current node
                 // in path[]
                 localPathList.remove(i);
+            } else {
+                System.out.print(localPathList);
+                System.out.println("->" + i);
             }
         }
 
@@ -95,10 +102,48 @@ public class AllPathFinding {
         isVisited[u] = false;
     }
 
+    public static void csvReader(AllPathFinding g) {
+
+        String csvFile = "G:\\temp\\flow-state-transition.csv";
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] data = line.split(cvsSplitBy);
+
+                //System.out.println("Node [src= " + country[3] + " , dest=" + country[4] + "]");
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
     // Driver program
     public static void main(String[] args) {
         // Create a sample graph
-        AllPathFinding g = new AllPathFinding(4);
+        AllPathFinding g = new AllPathFinding(300);
+        csvReader(g);
+
+
         g.addEdge(0, 1);
         g.addEdge(0, 2);
         g.addEdge(0, 3);
@@ -112,7 +157,7 @@ public class AllPathFinding {
         // arbitrary destination
         int d = 3;
 
-        System.out.println("Following are all different paths from " + s + " to " + d);
+        System.out.println("Following are all different paths from " + s);
         g.printAllPaths(s, d);
 
     }
