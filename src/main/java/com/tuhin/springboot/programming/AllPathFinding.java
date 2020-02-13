@@ -4,18 +4,19 @@ package com.tuhin.springboot.programming;
 // destination.
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // A directed graph using
 // adjacency list representation
 public class AllPathFinding {
 
     // No. of vertices in graph
-    private int v;
+    private int vertices;
 
     // adjacency list
     private ArrayList<Integer>[] adjList;
@@ -24,7 +25,7 @@ public class AllPathFinding {
     public AllPathFinding(int vertices) {
 
         //initialise vertex count
-        this.v = vertices;
+        this.vertices = vertices;
 
         // initialise adjacency list
         initAdjList();
@@ -34,9 +35,9 @@ public class AllPathFinding {
     // adjacency list
     @SuppressWarnings("unchecked")
     private void initAdjList() {
-        adjList = new ArrayList[v];
+        adjList = new ArrayList[vertices];
 
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < vertices; i++) {
             adjList[i] = new ArrayList<>();
         }
     }
@@ -49,15 +50,15 @@ public class AllPathFinding {
 
     // Prints all paths from
     // 's' to 'd'
-    public void printAllPaths(int s, int d) {
-        boolean[] isVisited = new boolean[v];
+    public void printAllPaths(int s) {
+        boolean[] isVisited = new boolean[vertices];
         ArrayList<Integer> pathList = new ArrayList<>();
 
         //add source to path[]
         pathList.add(s);
 
         //Call recursive utility
-        printAllPathsUtil(s, d, isVisited, pathList);
+        printAllPathsUtil(s, isVisited, pathList);
     }
 
     // A recursive function to print
@@ -66,7 +67,7 @@ public class AllPathFinding {
     // vertices in current path.
     // localPathList<> stores actual
     // vertices in the current path
-    private void printAllPathsUtil(Integer u, Integer d,
+    private void printAllPathsUtil(Integer u,
                                    boolean[] isVisited,
                                    List<Integer> localPathList) {
 
@@ -74,7 +75,12 @@ public class AllPathFinding {
         isVisited[u] = true;
 
         if (adjList[u].size() == 0) {
-            System.out.println(localPathList);
+            //System.out.println(localPathList);
+            localPathList.forEach(node -> {
+                //System.out.print("--" + myMapSmallBig.get(node) + "--");
+                System.out.print("--(" + myMapSmallBig.get(node) + ")" + descriptionMap.get(myMapSmallBig.get(node)) + "--");
+            });
+            System.out.println();
             // if match found then no need to traverse more till depth
             isVisited[u] = false;
             return;
@@ -87,7 +93,7 @@ public class AllPathFinding {
                 // store current node
                 // in path[]
                 localPathList.add(i);
-                printAllPathsUtil(i, d, isVisited, localPathList);
+                printAllPathsUtil(i, isVisited, localPathList);
 
                 // remove current node
                 // in path[]
@@ -102,8 +108,12 @@ public class AllPathFinding {
         isVisited[u] = false;
     }
 
-    public static void csvReader(AllPathFinding g) {
+    static Map<Integer, Integer> myMapBigSmall;
+    static Map<Integer, Integer> myMapSmallBig;
+    static Map<Integer, String> descriptionMap;
 
+
+    public static AllPathFinding csvReader() {
         String csvFile = "G:\\temp\\flow-state-transition.csv";
         BufferedReader br = null;
         String line = "";
@@ -112,17 +122,52 @@ public class AllPathFinding {
         try {
 
             br = new BufferedReader(new FileReader(csvFile));
+            boolean skip = true;
+            myMapBigSmall = new HashMap<>();
+            myMapSmallBig = new HashMap<>();
+            descriptionMap = new HashMap<>();
             while ((line = br.readLine()) != null) {
-
+                if (skip) {
+                    skip = false;
+                    continue;
+                }
                 // use comma as separator
                 String[] data = line.split(cvsSplitBy);
+                int src = Integer.parseInt(data[3]);
+                int dst = Integer.parseInt(data[4]);
 
-                //System.out.println("Node [src= " + country[3] + " , dest=" + country[4] + "]");
-
+                if (!myMapBigSmall.containsKey(src)) {
+                    int sz = myMapBigSmall.size();
+                    myMapBigSmall.put(src, sz);
+                    myMapSmallBig.put(sz, src);
+                    String description = data[5];
+                    descriptionMap.put(src, description);
+                }
+                if (!myMapBigSmall.containsKey(dst)) {
+                    int sz = myMapBigSmall.size();
+                    myMapBigSmall.put(dst, sz);
+                    myMapSmallBig.put(sz, dst);
+                    String description = data[6];
+                    descriptionMap.put(dst, description);
+                }
             }
+            br.close();
+            AllPathFinding g = new AllPathFinding(myMapBigSmall.size());
+            br = new BufferedReader(new FileReader(csvFile));
+            skip = true;
+            while ((line = br.readLine()) != null) {
+                if (skip) {
+                    skip = false;
+                    continue;
+                }
+                String[] data = line.split(cvsSplitBy);
+                int src = Integer.parseInt(data[3]);
+                int dst = Integer.parseInt(data[4]);
+                //System.out.println(data[0]+"-"+data[3]);
+                g.addEdge(myMapBigSmall.get(src), myMapBigSmall.get(dst));
+            }
+            return g;
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -135,30 +180,19 @@ public class AllPathFinding {
             }
         }
 
+        return null;
     }
 
     // Driver program
     public static void main(String[] args) {
         // Create a sample graph
-        AllPathFinding g = new AllPathFinding(300);
-        csvReader(g);
-
-
-        g.addEdge(0, 1);
-        g.addEdge(0, 2);
-        g.addEdge(0, 3);
-        g.addEdge(2, 0);
-        g.addEdge(2, 1);
-        g.addEdge(1, 3);
+        AllPathFinding g = csvReader();
 
         // arbitrary source
-        int s = 2;
-
-        // arbitrary destination
-        int d = 3;
+        int s = myMapBigSmall.get(1);
 
         System.out.println("Following are all different paths from " + s);
-        g.printAllPaths(s, d);
+        g.printAllPaths(s);
 
     }
 }
