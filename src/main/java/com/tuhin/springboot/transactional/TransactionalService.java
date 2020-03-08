@@ -17,14 +17,14 @@ public class TransactionalService {
 
     public void debitFromAccount(long from, int amount) {
         //do staff and debited money from data base
-        Account account = transactionRepository.findAccountById(from);
+        Account account = transactionRepository.findOneAccountById(from);
         account.setAmmount(account.getAmmount() + amount);
         transactionRepository.save(account);
     }
 
     public void creditToAccount(long to, int amount) throws Exception {
         //do straff
-        Account account = transactionRepository.findAccountById(to);
+        Account account = transactionRepository.findOneAccountById(to);
         account.setAmmount(account.getAmmount() - amount);
         transactionRepository.save(account);
         throw new Exception("Error during credit");

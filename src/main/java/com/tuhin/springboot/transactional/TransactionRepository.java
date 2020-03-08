@@ -3,5 +3,5 @@ package com.tuhin.springboot.transactional;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TransactionRepository extends CrudRepository<Account, Long> {
-    Account findAccountById(long id);
+    Account findOneAccountById(long id);
 }
