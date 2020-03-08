@@ -9,7 +9,7 @@ public class TransactionalService {
     @Autowired
     TransactionRepository transactionRepository;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void transferMoney(long to, long from, int amount) throws Exception {
         debitFromAccount(from, amount);
         creditToAccount(to, amount);
