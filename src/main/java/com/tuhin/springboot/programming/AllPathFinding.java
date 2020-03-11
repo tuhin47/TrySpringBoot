@@ -76,10 +76,7 @@ public class AllPathFinding {
 
         if (adjList[u].size() == 0) {
             //System.out.println(localPathList);
-            localPathList.forEach(node -> {
-                //System.out.print("--" + myMapSmallBig.get(node) + "--");
-                System.out.print("--(" + myMapSmallBig.get(node) + ")" + descriptionMap.get(myMapSmallBig.get(node)) + "--");
-            });
+            systemOutThePath(localPathList);
             System.out.println();
             // if match found then no need to traverse more till depth
             isVisited[u] = false;
@@ -99,13 +96,20 @@ public class AllPathFinding {
                 // in path[]
                 localPathList.remove(i);
             } else {
-                System.out.print(localPathList);
-                System.out.println("->" + i);
+                systemOutThePath(localPathList);
+                System.out.println("->" + myMapSmallBig.get(i));
             }
         }
 
         // Mark the current node
         isVisited[u] = false;
+    }
+
+    private void systemOutThePath(List<Integer> localPathList) {
+        localPathList.forEach(node -> {
+            //System.out.print("--" + myMapSmallBig.get(node) + "--");
+            System.out.print("--(" + myMapSmallBig.get(node) + ")" + descriptionMap.get(myMapSmallBig.get(node)) + "--");
+        });
     }
 
     static Map<Integer, Integer> myMapBigSmall;
@@ -189,7 +193,7 @@ public class AllPathFinding {
         AllPathFinding g = csvReader();
 
         // arbitrary source
-        int s = myMapBigSmall.get(1);
+        int s = myMapBigSmall.get(7038);
 
         System.out.println("Following are all different paths from " + s);
         g.printAllPaths(s);
