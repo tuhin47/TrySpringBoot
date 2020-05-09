@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @Service
-public class CouseService {
+public class CourseService {
 
 	@Autowired
 	private CourseRepository courseRepository;

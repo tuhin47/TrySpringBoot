@@ -8,4 +8,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
 
     public List<Course> findCoursesByTopicId(long id);
 
+    // public List<Course> findCoursesByTopicIdAndNameAnd(long topicId, String name);
+
 }
