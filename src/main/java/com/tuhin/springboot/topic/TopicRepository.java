@@ -19,6 +19,8 @@ public interface TopicRepository extends CrudRepository<Topic,Long>{
 
     Topic findFirstTopicByName(String name);
 
+    List<Topic> findByDescriptionContainsOrNameContainsAllIgnoreCase(String descriptionPart,
+                                                                     String namePart);
 
 //    @Query("from Topic where id=?1 and name=?2 limit 1")
 
