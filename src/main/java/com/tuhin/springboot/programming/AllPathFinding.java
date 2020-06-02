@@ -6,10 +6,7 @@ package com.tuhin.springboot.programming;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // A directed graph using
 // adjacency list representation
@@ -50,6 +47,33 @@ public class AllPathFinding {
 
     // Prints all paths from
     // 's' to 'd'
+
+    public void printAllEdges(int s) {
+        boolean[] visited = new boolean[vertices];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(s);
+        while (!queue.isEmpty()) {
+            int u = queue.remove();
+            visited[u] = true;
+            if (adjList[u].size() > 0) {
+                System.err.print("From");
+                printNodeValue(u);
+                System.out.print("-->[");
+                for (Integer i : adjList[u]) {
+                    if (!visited[i]) {
+                        queue.add(i);
+                    }
+                    printNodeValue(i);
+                    System.err.print(",  ");
+                }
+                System.out.println("]");
+            }
+
+
+        }
+    }
+
+
     public void printAllPaths(int s) {
         boolean[] isVisited = new boolean[vertices];
         ArrayList<Integer> pathList = new ArrayList<>();
@@ -105,6 +129,10 @@ public class AllPathFinding {
         isVisited[u] = false;
     }
 
+    private void printNodeValue(int node) {
+        System.out.print("(" + myMapSmallBig.get(node) + ")" + descriptionMap.get(myMapSmallBig.get(node)) + "");
+    }
+
     private void systemOutThePath(List<Integer> localPathList) {
         localPathList.forEach(node -> {
             //System.out.print("--" + myMapSmallBig.get(node) + "--");
@@ -116,7 +144,9 @@ public class AllPathFinding {
     static Map<Integer, Integer> myMapSmallBig;
     static Map<Integer, String> descriptionMap;
 
-
+    static String replaceNewLineWithEmpty(String str) {
+        return str.replaceAll("\\r\\n|\\r|\\n", " ");
+    }
     public static AllPathFinding csvReader() {
         String csvFile = "G:\\temp\\flow-state-transition.csv";
         BufferedReader br = null;
@@ -151,7 +181,7 @@ public class AllPathFinding {
                     int sz = myMapBigSmall.size();
                     myMapBigSmall.put(dst, sz);
                     myMapSmallBig.put(sz, dst);
-                    String description = data[6];
+                    String description = replaceNewLineWithEmpty(data[6]);
                     descriptionMap.put(dst, description);
                 }
             }
@@ -197,6 +227,7 @@ public class AllPathFinding {
 
         System.out.println("Following are all different paths from " + s);
         g.printAllPaths(s);
+//        g.printAllEdges(s);
 
     }
 }
