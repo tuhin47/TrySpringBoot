@@ -50,7 +50,7 @@
     <!-- UNCOMMENT THE BELOW TO HIDE THE RESULT SET TABLE OUTPUT -->
     <logger name="jdbc.resultsettable" level="ERROR"/>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="SAVE-TO-FILE"/>
         <appender-ref ref="SAVE-TO-LOG"/>
